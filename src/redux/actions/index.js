@@ -5,16 +5,3 @@ export const userLogin = (state) => ({
   type: USER_LOGIN,
   payload: state,
 });
-
-export const addToken = (state) => ({
-  type: USER_TOKEN,
-  payload: state,
-});
-
-export const createToken = () => async (dispatch) => {
-  const returnFetch = await fetch('https://opentdb.com/api_token.php?command=request');
-  const data = await returnFetch.json();
-  const returnToken = await data.token;
-  dispatch(addToken(returnToken));
-  await localStorage.setItem('token', returnToken);
-};
