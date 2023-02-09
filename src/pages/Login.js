@@ -89,9 +89,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = (globalState) => ({
-  name: globalState.name,
-  email: globalState.email,
-  token: globalState.token,
+  name: globalState.user.name,
+  gravatarEmail: globalState.user.gravatarEmail,
 });
 
 Login.propTypes = {

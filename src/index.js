@@ -12,6 +12,5 @@ ReactDOM.createRoot(
     <BrowserRouter>
       <App />
     </BrowserRouter>
-
   </Provider>,
 );
