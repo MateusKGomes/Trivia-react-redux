@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { userLogin } from '../redux/actions';
+import { userLogin, createToken } from '../redux/actions';
 
 class Login extends Component {
   state = {
     isDisabled: true,
     email: '',
     name: '',
-    token: '',
-  };
-
-  ApiFetch = async () => {
-    const returnFetch = await fetch('https://opentdb.com/api_token.php?command=request');
-    const data = await returnFetch.json();
-    return data.token;
   };
 
   handleChange = ({ target }) => {
@@ -28,15 +21,9 @@ class Login extends Component {
     event.preventDefault();
     const { history, dispatch } = this.props;
     const { email, name } = this.state;
-    const retorno = await this.ApiFetch();
     dispatch(userLogin({ email, name }));
-    this.setState({
-      token: retorno,
-    }, () => {
-      const { token } = this.state;
-      localStorage.setItem('token', token);
-      history.push('/game');
-    });
+    dispatch(createToken());
+    history.push('/game');
   };
 
   validateForm() {
