@@ -2,14 +2,18 @@ import { USER_LOGIN } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
-  email: '',
-  token: '',
+  gravatarEmail: '',
+  assertions: '',
+  score: '',
 };
 
 function user(state = INITIAL_STATE, action) {
   switch (action.type) {
   case USER_LOGIN:
-    return { ...state, ...action.payload };
+    return { ...state,
+      name: action.payload.name,
+      gravatarEmail: action.payload.gravatarEmail,
+    };
   default:
     return state;
   }

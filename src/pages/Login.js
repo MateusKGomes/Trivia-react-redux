@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { userLogin, createToken } from '../redux/actions';
+import { userLogin } from '../redux/actions';
+import { createToken } from '../services/API';
 
 class Login extends Component {
   state = {
     isDisabled: true,
-    email: '',
+    gravatarEmail: '',
     name: '',
   };
 
@@ -20,17 +21,17 @@ class Login extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     const { history, dispatch } = this.props;
-    const { email, name } = this.state;
-    dispatch(userLogin({ email, name }));
-    dispatch(createToken());
+    const { gravatarEmail, name } = this.state;
+    dispatch(userLogin({ gravatarEmail, name }));
+    createToken();
     history.push('/game');
   };
 
   validateForm() {
-    const { email, name } = this.state;
+    const { gravatarEmail, name } = this.state;
     const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
     const minNameLength = 1;
-    const isEmailValid = emailRegex.test(email);
+    const isEmailValid = emailRegex.test(gravatarEmail);
     const isNameValid = name.length >= minNameLength;
     this.setState({
       isDisabled: !(isEmailValid && isNameValid),
@@ -47,7 +48,7 @@ class Login extends Component {
             Email:
             <input
               type="email"
-              name="email"
+              name="gravatarEmail"
               id="email"
               data-testid="input-gravatar-email"
               onChange={ this.handleChange }
