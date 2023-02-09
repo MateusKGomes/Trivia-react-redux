@@ -39,6 +39,7 @@ class Login extends Component {
   }
 
   render() {
+    const { history } = this.props;
     const { isDisabled } = this.state;
     return (
       <div>
@@ -75,10 +76,7 @@ class Login extends Component {
           <button
             data-testid="btn-settings"
             type="button"
-            onClick={ () => {
-              const { history } = this.props;
-              history.push('/settings');
-            } }
+            onClick={ () => history.push('/settings') }
           >
             Settings
           </button>
