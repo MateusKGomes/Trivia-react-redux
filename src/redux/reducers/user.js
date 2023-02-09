@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   name: '',
   gravatarEmail: '',
   assertions: '',
-  score: '',
+  score: '0',
 };
 
 function user(state = INITIAL_STATE, action) {

@@ -88,6 +88,11 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = (globalState) => ({
+  name: globalState.user.name,
+  gravatarEmail: globalState.user.gravatarEmail,
+});
+
 Login.propTypes = {
   dispatch: PropTypes.func,
   history: PropTypes.shape({
@@ -95,4 +100,4 @@ Login.propTypes = {
   }),
 }.isRequired;
 
-export default connect()(Login);
+export default connect(mapStateToProps)(Login);
