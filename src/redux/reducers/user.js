@@ -3,6 +3,7 @@ import { USER_LOGIN } from '../actions';
 const INITIAL_STATE = {
   name: '',
   email: '',
+  token: '',
 };
 
 function user(state = INITIAL_STATE, action) {

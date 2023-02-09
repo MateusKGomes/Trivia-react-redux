@@ -11,6 +11,10 @@ export const addToken = (state) => ({
   payload: state,
 });
 
-export const createToken = () => (dispatch) => fetch('https://opentdb.com/api_token.php?command=reques')
-  .then((response) => response.json())
-  .then((json) => dispatch(addToken(json)));
+export const createToken = () => async (dispatch) => {
+  const returnFetch = await fetch('https://opentdb.com/api_token.php?command=request');
+  const data = await returnFetch.json();
+  const returnToken = await data.token;
+  dispatch(addToken(returnToken));
+  await localStorage.setItem('token', returnToken);
+};
