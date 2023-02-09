@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { userLogin } from '../redux/actions';
 
 class Login extends Component {
   state = {
     isDisabled: true,
     email: '',
     name: '',
+    token: '',
+  };
+
+  ApiFetch = async () => {
+    const returnFetch = await fetch('https://opentdb.com/api_token.php?command=request');
+    const data = await returnFetch.json();
+    return data.token;
   };
 
   handleChange = ({ target }) => {
@@ -18,8 +26,17 @@ class Login extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    const { history } = this.props;
-    history.push('/game');
+    const { history, dispatch } = this.props;
+    const { email, name } = this.state;
+    const retorno = await this.ApiFetch();
+    dispatch(userLogin({ email, name }));
+    this.setState({
+      token: retorno,
+    }, () => {
+      const { token } = this.state;
+      localStorage.setItem('token', token);
+      history.push('/game');
+    });
   };
 
   validateForm() {
@@ -74,9 +91,10 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  dispatch: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default connect()(Login);
