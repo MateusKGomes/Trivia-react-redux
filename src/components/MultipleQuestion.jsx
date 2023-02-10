@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import shuffle from './Suffled';
+import '../App.css';
 // import { fetchQuestionsAnswer } from '../services/API';
 
 class MultipleQuestion extends Component {
@@ -11,6 +12,8 @@ class MultipleQuestion extends Component {
     shuffleAnswers: [],
     count: 0,
     resultApi: [],
+    correctClass: 'correct-answer',
+    wrongClass: 'wrong-answer',
     seconds: 30,
     disable: false,
   };
@@ -78,8 +81,15 @@ class MultipleQuestion extends Component {
 
   onClick = () => {
     const { count } = this.state;
+    const correct = document.querySelector('.correct-answer');
+    const wrong = document.querySelectorAll('.wrong-answer');
+    wrong.forEach((data) => data.classList.add('wrong'));
+    /* wrong.classList.add('wrong'); */
+    correct.classList.add('correct');
     this.setState({
       count: count + 1,
+      /* correctClass: 'correct-answer correct',
+      wrongClass: 'wrong-answer wrong', */
     });
   };
 
@@ -90,6 +100,8 @@ class MultipleQuestion extends Component {
       shuffleAnswers,
       question,
       category,
+      correctClass,
+      wrongClass,
       seconds,
       disable,
     } = this.state;
@@ -106,6 +118,8 @@ class MultipleQuestion extends Component {
                 return (
                   <button
                     type="button"
+                    className={ correctClass }
+                    id=""
                     disabled={ disable }
                     name="correct-answer"
                     data-testid="correct-answer"
@@ -120,6 +134,8 @@ class MultipleQuestion extends Component {
               return (
                 <button
                   type="button"
+                  className={ wrongClass }
+                  id=""
                   disabled={ disable }
                   name={ `wrong-answer-${index}` }
                   data-testid={ `wrong-answer-${index}` }

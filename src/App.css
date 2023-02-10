@@ -61,3 +61,14 @@ body {
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.wrong {
+  border: solid red;
+  border-width: 3px;
+}
+
+.correct {
+  border: solid rgb(6, 240, 15);
+  border-width: 3px;
+}
+
