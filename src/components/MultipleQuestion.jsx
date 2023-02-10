@@ -11,10 +11,37 @@ class MultipleQuestion extends Component {
     shuffleAnswers: [],
     count: 0,
     resultApi: [],
+    seconds: 30,
+    disable: false,
   };
 
   componentDidMount() {
     this.fetchQuestionsAnswer();
+    const ONE_SECOND = 1000;
+    this.intervalID = setInterval(() => {
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1,
+      }));
+    }, ONE_SECOND);
+
+    console.log(this.intervalID);
+  }
+
+  componentDidUpdate(_prevProps, prevState) {
+    const TIME_LIMIT_IN_SECONDS = 1;
+
+    if (prevState.seconds === TIME_LIMIT_IN_SECONDS) {
+      this.setState({
+        disable: true,
+      }, () => {
+        clearInterval(this.intervalID);
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    console.log('Vou desmontar');
+    clearInterval(this.intervalID);
   }
 
   fetchQuestionsAnswer = async () => {
@@ -49,8 +76,7 @@ class MultipleQuestion extends Component {
     });
   };
 
-  onClick = ({ target }) => {
-    console.log(target);
+  onClick = () => {
     const { count } = this.state;
     this.setState({
       count: count + 1,
@@ -64,12 +90,15 @@ class MultipleQuestion extends Component {
       shuffleAnswers,
       question,
       category,
+      seconds,
+      disable,
     } = this.state;
     return (
       <div>
         <h1 data-testid="question-category">{category}</h1>
         <h2 data-testid="question-text">{question}</h2>
         {/* <h3 data-testid="question-difficulty">{difficulty}</h3> */}
+        <p>{seconds}</p>
         <div data-testid="answer-options">
           {
             shuffleAnswers.map((answer, i) => {
@@ -77,10 +106,11 @@ class MultipleQuestion extends Component {
                 return (
                   <button
                     type="button"
+                    disabled={ disable }
                     name="correct-answer"
                     data-testid="correct-answer"
                     key={ i }
-                    onClick={ ({ target }) => this.onClick(target) }
+                    onClick={ () => this.onClick() }
                   >
                     {answer}
                   </button>
@@ -90,10 +120,11 @@ class MultipleQuestion extends Component {
               return (
                 <button
                   type="button"
+                  disabled={ disable }
                   name={ `wrong-answer-${index}` }
                   data-testid={ `wrong-answer-${index}` }
                   key={ i }
-                  onClick={ ({ target }) => this.onClick(target) }
+                  onClick={ () => this.onClick() }
                 >
                   {answer}
                 </button>
