@@ -1,10 +1,10 @@
-import { USER_LOGIN } from '../actions';
+import { USER_LOGIN, PLAYER_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   gravatarEmail: '',
   assertions: '',
-  score: '0',
+  score: 0,
 };
 
 function user(state = INITIAL_STATE, action) {
@@ -13,6 +13,11 @@ function user(state = INITIAL_STATE, action) {
     return { ...state,
       name: action.payload.name,
       gravatarEmail: action.payload.gravatarEmail,
+    };
+  case PLAYER_SCORE:
+    return {
+      ...state,
+      score: action.payload,
     };
   default:
     return state;
