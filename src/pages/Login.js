@@ -23,7 +23,7 @@ class Login extends Component {
     const { history, dispatch } = this.props;
     const { gravatarEmail, name } = this.state;
     dispatch(userLogin({ gravatarEmail, name }));
-    createToken();
+    await createToken();
     history.push('/game');
   };
 
