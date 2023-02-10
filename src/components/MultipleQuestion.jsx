@@ -18,6 +18,7 @@ class MultipleQuestion extends Component {
     seconds: 30,
     disable: false,
     difficulty: '',
+    hidden: true,
   };
 
   componentDidMount() {
@@ -84,6 +85,7 @@ class MultipleQuestion extends Component {
       count: count + 1,
       seconds: prevState.seconds,
       disable: true,
+      hidden: false,
     }), () => {
       clearInterval(this.intervalID);
     });
@@ -115,6 +117,7 @@ class MultipleQuestion extends Component {
       wrongClass,
       seconds,
       disable,
+      hidden,
     } = this.state;
     return (
       <div>
@@ -158,6 +161,21 @@ class MultipleQuestion extends Component {
               );
             })
           }
+
+          {
+            hidden ? null
+              : (
+                <button
+                  data-testid="btn-next"
+                  type="button"
+                  name="next"
+                >
+                  Next
+                </button>
+
+              )
+          }
+
         </div>
       </div>
     );
