@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import shuffle from './Suffled';
 import '../App.css';
+import { actionScore } from '../redux/actions';
 // import { fetchQuestionsAnswer } from '../services/API';
 
 class MultipleQuestion extends Component {
@@ -16,6 +17,7 @@ class MultipleQuestion extends Component {
     wrongClass: 'wrong-answer',
     seconds: 30,
     disable: false,
+    difficulty: '',
   };
 
   componentDidMount() {
@@ -26,8 +28,6 @@ class MultipleQuestion extends Component {
         seconds: prevState.seconds - 1,
       }));
     }, ONE_SECOND);
-
-    console.log(this.intervalID);
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -40,11 +40,6 @@ class MultipleQuestion extends Component {
         clearInterval(this.intervalID);
       });
     }
-  }
-
-  componentWillUnmount() {
-    console.log('Vou desmontar');
-    clearInterval(this.intervalID);
   }
 
   fetchQuestionsAnswer = async () => {
@@ -65,7 +60,6 @@ class MultipleQuestion extends Component {
 
   responseApi = () => {
     const { count, resultApi } = this.state;
-
     const correct = resultApi[count].correct_answer;
     const incorrect = resultApi[count].incorrect_answers;
     const all = [...incorrect, correct];
@@ -76,21 +70,38 @@ class MultipleQuestion extends Component {
       shuffleAnswers,
       category: resultApi[count].category,
       question: resultApi[count].question,
+      difficulty: resultApi[count].difficulty,
     });
   };
 
-  onClick = () => {
-    const { count } = this.state;
+  onClick = (target) => {
+    const { count, difficulty, seconds } = this.state;
     const correct = document.querySelector('.correct-answer');
     const wrong = document.querySelectorAll('.wrong-answer');
     wrong.forEach((data) => data.classList.add('wrong'));
-    /* wrong.classList.add('wrong'); */
     correct.classList.add('correct');
-    this.setState({
+    this.setState((prevState) => ({
       count: count + 1,
-      /* correctClass: 'correct-answer correct',
-      wrongClass: 'wrong-answer wrong', */
+      seconds: prevState.seconds,
+      disable: true,
+    }), () => {
+      clearInterval(this.intervalID);
     });
+    const { dispatch } = this.props;
+    let difficultyValue = 0;
+    const three = 3;
+    const ten = 10;
+    if (target.className === 'correct-answer correct') {
+      if (difficulty === 'hard') {
+        difficultyValue = three;
+      } else if (difficulty === 'medium') {
+        difficultyValue = 2;
+      } else {
+        difficultyValue = 1;
+      }
+      const totalScore = ten + (seconds * difficultyValue);
+      dispatch(actionScore(totalScore));
+    }
   };
 
   render() {
@@ -124,7 +135,7 @@ class MultipleQuestion extends Component {
                     name="correct-answer"
                     data-testid="correct-answer"
                     key={ i }
-                    onClick={ () => this.onClick() }
+                    onClick={ ({ target }) => this.onClick(target) }
                   >
                     {answer}
                   </button>
@@ -140,7 +151,7 @@ class MultipleQuestion extends Component {
                   name={ `wrong-answer-${index}` }
                   data-testid={ `wrong-answer-${index}` }
                   key={ i }
-                  onClick={ () => this.onClick() }
+                  onClick={ ({ target }) => this.onClick(target) }
                 >
                   {answer}
                 </button>
@@ -164,4 +175,9 @@ MultipleQuestion.propTypes = {
     // difficulty: PropTypes.string,
   }),
 }.isRequired;
-export default connect()(MultipleQuestion);
+
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+});
+
+export default connect(mapStateToProps)(MultipleQuestion);

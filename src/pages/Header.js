@@ -28,9 +28,9 @@ Header.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (globalState) => ({
-  name: globalState.user.name,
-  gravatarEmail: globalState.user.gravatarEmail,
-  score: globalState.user.score,
+  name: globalState.player.name,
+  gravatarEmail: globalState.player.gravatarEmail,
+  score: globalState.player.score,
 });
 
 export default connect(mapStateToProps)(Header);
