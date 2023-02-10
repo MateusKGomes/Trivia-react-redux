@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import shuffle from './Suffled';
 import './Button.module.css';
+import '../App.css';
 // import { fetchQuestionsAnswer } from '../services/API';
 
 class MultipleQuestion extends Component {
@@ -54,10 +55,15 @@ class MultipleQuestion extends Component {
 
   onClick = () => {
     const { count } = this.state;
+    const correct = document.querySelector('.correct-answer');
+    const wrong = document.querySelectorAll('.wrong-answer');
+    wrong.forEach((data) => data.classList.add('wrong'));
+    /* wrong.classList.add('wrong'); */
+    correct.classList.add('correct');
     this.setState({
       count: count + 1,
-      correctClass: 'correct-answer correct',
-      wrongClass: 'wrong-answer wrong',
+      /* correctClass: 'correct-answer correct',
+      wrongClass: 'wrong-answer wrong', */
     });
   };
 
@@ -84,6 +90,7 @@ class MultipleQuestion extends Component {
                   <button
                     type="button"
                     className={ correctClass }
+                    id=""
                     name="correct-answer"
                     data-testid="correct-answer"
                     key={ i }
@@ -98,6 +105,7 @@ class MultipleQuestion extends Component {
                 <button
                   type="button"
                   className={ wrongClass }
+                  id=""
                   name={ `wrong-answer-${index}` }
                   data-testid={ `wrong-answer-${index}` }
                   key={ i }
