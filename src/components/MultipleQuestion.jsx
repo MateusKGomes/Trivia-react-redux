@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import shuffle from './Suffled';
+import './Button.module.css';
 // import { fetchQuestionsAnswer } from '../services/API';
 
 class MultipleQuestion extends Component {
@@ -11,6 +12,8 @@ class MultipleQuestion extends Component {
     shuffleAnswers: [],
     count: 0,
     resultApi: [],
+    correctClass: 'correct-answer',
+    wrongClass: 'wrong-answer',
   };
 
   componentDidMount() {
@@ -49,11 +52,12 @@ class MultipleQuestion extends Component {
     });
   };
 
-  onClick = ({ target }) => {
-    console.log(target);
+  onClick = () => {
     const { count } = this.state;
     this.setState({
       count: count + 1,
+      correctClass: 'correct-answer correct',
+      wrongClass: 'wrong-answer wrong',
     });
   };
 
@@ -64,6 +68,8 @@ class MultipleQuestion extends Component {
       shuffleAnswers,
       question,
       category,
+      correctClass,
+      wrongClass,
     } = this.state;
     return (
       <div>
@@ -77,6 +83,7 @@ class MultipleQuestion extends Component {
                 return (
                   <button
                     type="button"
+                    className={ correctClass }
                     name="correct-answer"
                     data-testid="correct-answer"
                     key={ i }
@@ -90,6 +97,7 @@ class MultipleQuestion extends Component {
               return (
                 <button
                   type="button"
+                  className={ wrongClass }
                   name={ `wrong-answer-${index}` }
                   data-testid={ `wrong-answer-${index}` }
                   key={ i }
