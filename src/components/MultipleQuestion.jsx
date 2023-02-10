@@ -23,7 +23,7 @@ class MultipleQuestion extends Component {
     const fechApi = await fetch(`https://opentdb.com/api.php?amount=5&token=${getToken}`);
     const json = await fechApi.json();
     const result = json.results;
-    const three = 0;
+    const three = 3;
     if (json.response_code === three) {
       console.log(history);
       localStorage.removeItem('token');
@@ -49,7 +49,8 @@ class MultipleQuestion extends Component {
     });
   };
 
-  onClick = () => {
+  onClick = ({ target }) => {
+    console.log(target);
     const { count } = this.state;
     this.setState({
       count: count + 1,
@@ -79,7 +80,7 @@ class MultipleQuestion extends Component {
                     name="correct-answer"
                     data-testid="correct-answer"
                     key={ i }
-                    onClick={ () => this.onClick() }
+                    onClick={ ({ target }) => this.onClick(target) }
                   >
                     {answer}
                   </button>
@@ -92,7 +93,7 @@ class MultipleQuestion extends Component {
                   name={ `wrong-answer-${index}` }
                   data-testid={ `wrong-answer-${index}` }
                   key={ i }
-                  onClick={ () => this.onClick() }
+                  onClick={ ({ target }) => this.onClick(target) }
                 >
                   {answer}
                 </button>
