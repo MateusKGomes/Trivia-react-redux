@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import shuffle from './Suffled';
-import './Button.module.css';
 import '../App.css';
 // import { fetchQuestionsAnswer } from '../services/API';
 
