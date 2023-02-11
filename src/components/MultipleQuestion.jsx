@@ -134,7 +134,7 @@ class MultipleQuestion extends Component {
                     type="button"
                     className={ correctClass }
                     id=""
-                    disabled={ disable }
+                    disabled={ false }
                     name="correct-answer"
                     data-testid="correct-answer"
                     key={ i }
