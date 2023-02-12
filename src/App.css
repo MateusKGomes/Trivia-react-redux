@@ -63,12 +63,12 @@ body {
 }
 
 .wrong {
-  border: solid red;
+  border: 3px solid red;
   border-width: 3px;
 }
 
 .correct {
-  border: solid rgb(6, 240, 15);
+  border: 3px solid rgb(6, 240, 15);
   border-width: 3px;
 }
 

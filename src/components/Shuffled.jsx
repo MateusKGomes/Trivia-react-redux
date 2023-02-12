@@ -1,4 +1,4 @@
-function shuffle(array) {
+function Shuffled(array) {
   let currentIndex = array.length;
   let randomIndex;
   while (currentIndex !== 0) {
@@ -9,4 +9,4 @@ function shuffle(array) {
   }
   return array;
 }
-export default shuffle;
+export default Shuffled;
