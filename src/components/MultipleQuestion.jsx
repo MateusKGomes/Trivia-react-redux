@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import shuffle from './Suffled';
+import Shuffled from './Shuffled';
 import '../App.css';
 import { actionScore } from '../redux/actions';
+// import Shuffled from './Shuffled';
 // import { fetchQuestionsAnswer } from '../services/API';
 
 class MultipleQuestion extends Component {
   state = {
     correct: '',
     incorrect: [],
-    shuffleAnswers: [],
+    shuffledAnswers: [],
     count: 0,
     resultApi: [],
     correctClass: 'correct-answer',
@@ -55,7 +56,7 @@ class MultipleQuestion extends Component {
       localStorage.removeItem('token');
       history.push('/');
     } else {
-      return this.setState({ resultApi: result }, () => this.responseApi());
+      this.setState({ resultApi: result }, () => this.responseApi());
     }
   };
 
@@ -64,11 +65,14 @@ class MultipleQuestion extends Component {
     const correct = resultApi[count].correct_answer;
     const incorrect = resultApi[count].incorrect_answers;
     const all = [...incorrect, correct];
-    const shuffleAnswers = shuffle(all);
+    const shuffledAnswers = Shuffled(all);
+    if (!correct) {
+      return;
+    }
     this.setState({
       correct,
       incorrect,
-      shuffleAnswers,
+      shuffledAnswers,
       category: resultApi[count].category,
       question: resultApi[count].question,
       difficulty: resultApi[count].difficulty,
@@ -103,6 +107,23 @@ class MultipleQuestion extends Component {
       }
       const totalScore = ten + (seconds * difficultyValue);
       dispatch(actionScore(totalScore));
+    } else {
+      const eR = 0;
+      dispatch(actionScore(eR));
+    }
+  };
+
+  nextQuestion = () => {
+    const max = 5;
+    const { count } = this.state;
+    if (count === max) {
+      const { history } = this.props;
+      history.push('/feedback');
+    } else {
+      this.fetchQuestionsAnswer();
+      this.setState({
+        disable: false,
+      });
     }
   };
 
@@ -110,7 +131,7 @@ class MultipleQuestion extends Component {
     const {
       correct,
       incorrect,
-      shuffleAnswers,
+      shuffledAnswers,
       question,
       category,
       correctClass,
@@ -123,11 +144,10 @@ class MultipleQuestion extends Component {
       <div>
         <h1 data-testid="question-category">{category}</h1>
         <h2 data-testid="question-text">{question}</h2>
-        {/* <h3 data-testid="question-difficulty">{difficulty}</h3> */}
         <p>{seconds}</p>
         <div data-testid="answer-options">
           {
-            shuffleAnswers.map((answer, i) => {
+            shuffledAnswers.map((answer, i) => {
               if (answer === correct) {
                 return (
                   <button
@@ -161,21 +181,18 @@ class MultipleQuestion extends Component {
               );
             })
           }
-
           {
-            hidden ? null
-              : (
-                <button
-                  data-testid="btn-next"
-                  type="button"
-                  name="next"
-                >
-                  Next
-                </button>
-
-              )
+            hidden ? null : (
+              <button
+                data-testid="btn-next"
+                type="button"
+                name="next"
+                onClick={ () => this.nextQuestion() }
+              >
+                Next
+              </button>
+            )
           }
-
         </div>
       </div>
     );
@@ -190,7 +207,6 @@ MultipleQuestion.propTypes = {
     question: PropTypes.string,
     correct_answer: PropTypes.string,
     category: PropTypes.string,
-    // difficulty: PropTypes.string,
   }),
 }.isRequired;
 
