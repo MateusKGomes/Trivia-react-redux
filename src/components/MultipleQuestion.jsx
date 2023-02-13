@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Shuffled from './Shuffled';
 import '../App.css';
-import { actionScore } from '../redux/actions';
+import { actionAssertions, actionScore } from '../redux/actions';
 // import Shuffled from './Shuffled';
 // import { fetchQuestionsAnswer } from '../services/API';
 
@@ -93,7 +93,7 @@ class MultipleQuestion extends Component {
     }), () => {
       clearInterval(this.intervalID);
     });
-    const { dispatch, score } = this.props;
+    const { dispatch, score, assertions } = this.props;
     let difficultyValue = 0;
     const three = 3;
     const ten = 10;
@@ -106,9 +106,12 @@ class MultipleQuestion extends Component {
         difficultyValue = 1;
       }
       const totalScore = score + (ten + (seconds * difficultyValue));
+      const assertion = assertions + 1;
       dispatch(actionScore(totalScore));
+      dispatch(actionAssertions(assertion));
     } else {
       dispatch(actionScore(score));
+      dispatch(actionAssertions(assertions));
     }
   };
 
@@ -216,6 +219,7 @@ MultipleQuestion.propTypes = {
 
 const mapStateToProps = (state) => ({
   score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 export default connect(mapStateToProps)(MultipleQuestion);
