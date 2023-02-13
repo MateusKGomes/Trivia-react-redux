@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Shuffled from './Shuffled';
 import '../App.css';
 import { actionAssertions, actionScore } from '../redux/actions';
+import { saveRanking } from '../services/localStorage';
 // import Shuffled from './Shuffled';
 // import { fetchQuestionsAnswer } from '../services/API';
 
@@ -123,7 +124,13 @@ class MultipleQuestion extends Component {
     const max = 5;
     const { count } = this.state;
     if (count === max) {
-      const { history } = this.props;
+      const { history, score, name, gravatarImage } = this.props;
+      const object = {
+        name,
+        score,
+        picture: gravatarImage,
+      };
+      saveRanking(object);
       history.push('/feedback');
     } else {
       this.fetchQuestionsAnswer();
@@ -218,6 +225,8 @@ MultipleQuestion.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
+  gravatarImage: state.player.gravatarImage,
+  name: state.player.name,
   score: state.player.score,
   assertions: state.player.assertions,
 });

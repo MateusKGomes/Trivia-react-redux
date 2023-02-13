@@ -3,17 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { getRanking } from '../services/localStorage';
+import { actionScore } from '../redux/actions';
 
 class Ranking extends Component {
   render() {
     const { gravatarEmail } = this.props;
     const num1 = -1;
+
     const ranking = getRanking().sort((a, b) => {
       if (a.score > b.score) {
         return num1;
       }
-      return true;
+      return 1;
     });
+    console.log(ranking);
     return (
       <div className="ranking">
         <img src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` } alt="logo" className="logo" />
@@ -23,10 +26,10 @@ class Ranking extends Component {
             { ranking.map((elemento, index) => (
               <li key={ index }>
                 <div className="rankingPlayer">
-                  <img
+                  {/* <img
                     src={ elemento.picture }
                     alt="avatar"
-                  />
+                  /> */}
                   <p
                     data-testid={ `player-name-${index}` }
                     name="name"
@@ -52,7 +55,8 @@ class Ranking extends Component {
             data-testid="btn-go-home"
             type="submit"
             onClick={ () => {
-              const { history } = this.props;
+              const { history, dispatch } = this.props;
+              dispatch(actionScore(0));
               history.push('/');
             } }
           >
@@ -65,6 +69,7 @@ class Ranking extends Component {
 }
 
 Ranking.propTypes = {
+  dispatch: PropTypes.func,
   gravatarEmail: PropTypes.string,
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -73,6 +78,7 @@ Ranking.propTypes = {
 
 const mapStateToProps = (globalState) => ({
   gravatarEmail: globalState.player.gravatarEmail,
+  score: globalState.player.score,
 });
 
 export default connect(mapStateToProps)(Ranking);
