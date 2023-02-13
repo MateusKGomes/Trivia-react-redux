@@ -113,6 +113,10 @@ class MultipleQuestion extends Component {
   };
 
   nextQuestion = () => {
+    const correct = document.querySelector('.correct-answer');
+    const wrong = document.querySelectorAll('.wrong-answer');
+    wrong.forEach((data) => data.classList.remove('wrong'));
+    correct.classList.remove('correct');
     const max = 5;
     const { count } = this.state;
     if (count === max) {
@@ -122,6 +126,7 @@ class MultipleQuestion extends Component {
       this.fetchQuestionsAnswer();
       this.setState({
         disable: false,
+        hidden: true,
       });
     }
   };
