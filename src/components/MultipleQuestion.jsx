@@ -93,7 +93,7 @@ class MultipleQuestion extends Component {
     }), () => {
       clearInterval(this.intervalID);
     });
-    const { dispatch } = this.props;
+    const { dispatch, score } = this.props;
     let difficultyValue = 0;
     const three = 3;
     const ten = 10;
@@ -105,15 +105,18 @@ class MultipleQuestion extends Component {
       } else {
         difficultyValue = 1;
       }
-      const totalScore = ten + (seconds * difficultyValue);
+      const totalScore = score + (ten + (seconds * difficultyValue));
       dispatch(actionScore(totalScore));
     } else {
-      const eR = 0;
-      dispatch(actionScore(eR));
+      dispatch(actionScore(score));
     }
   };
 
   nextQuestion = () => {
+    const correct = document.querySelector('.correct-answer');
+    const wrong = document.querySelectorAll('.wrong-answer');
+    wrong.forEach((data) => data.classList.remove('wrong'));
+    correct.classList.remove('correct');
     const max = 5;
     const { count } = this.state;
     if (count === max) {
@@ -123,6 +126,7 @@ class MultipleQuestion extends Component {
       this.fetchQuestionsAnswer();
       this.setState({
         disable: false,
+        hidden: true,
       });
     }
   };
