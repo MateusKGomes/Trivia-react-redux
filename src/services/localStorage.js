@@ -3,7 +3,6 @@ export const getRanking = () => {
   if (!localStorage.getItem(RANKING_KEY)) {
     localStorage.setItem(RANKING_KEY, JSON.stringify([]));
   }
-  console.log(JSON.parse(localStorage.getItem(RANKING_KEY)));
   return JSON.parse(localStorage.getItem(RANKING_KEY));
 };
 export const setRanking = (ranking) => {

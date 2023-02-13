@@ -16,7 +16,6 @@ class Ranking extends Component {
       }
       return 1;
     });
-    console.log(ranking);
     return (
       <div className="ranking">
         <img src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` } alt="logo" className="logo" />
