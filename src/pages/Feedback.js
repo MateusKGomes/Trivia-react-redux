@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import { actionScore } from '../redux/actions';
 
 class Feedback extends Component {
   feedbackP = () => {
@@ -40,7 +41,8 @@ class Feedback extends Component {
             type="button"
             data-testid="btn-play-again"
             onClick={ () => {
-              const { history } = this.props;
+              const { history, dispatch } = this.props;
+              dispatch(actionScore(0));
               history.push('/');
             } }
           >
@@ -66,6 +68,7 @@ class Feedback extends Component {
 Feedback.propTypes = {
   assertions: PropTypes.number,
   score: PropTypes.number,
+  dispatch: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
