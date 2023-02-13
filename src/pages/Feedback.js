@@ -18,7 +18,9 @@ class Feedback extends Component {
       <>
         <Header />
         <div>
-          {this.feedbackP()}
+          <p data-testid="feedback-text">
+            {this.feedbackP()}
+          </p>
           <p>{`You got ${assertions} question(s) right!`}</p>
           <p>{`A total of ${score} points.`}</p>
         </div>
