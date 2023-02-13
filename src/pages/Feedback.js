@@ -21,8 +21,18 @@ class Feedback extends Component {
           <p data-testid="feedback-text">
             {this.feedbackP()}
           </p>
-          <p>{`You got ${assertions} question(s) right!`}</p>
-          <p>{`A total of ${score} points.`}</p>
+          <p>
+            You got
+            <p data-testid="feedback-total-question">
+              {assertions}
+            </p>
+            question(s) right!
+          </p>
+          <p>
+            A total of
+            <p data-testid="feedback-total-score">{score}</p>
+            points.
+          </p>
         </div>
         <div className="buttons">
           <button
