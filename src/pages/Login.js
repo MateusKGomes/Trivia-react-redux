@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { userLogin } from '../redux/actions';
 import { createToken } from '../services/API';
+import '../Style/Login.css';
 
 class Login extends Component {
   state = {
@@ -42,44 +43,56 @@ class Login extends Component {
     const { history } = this.props;
     const { isDisabled } = this.state;
     return (
-      <div>
-        <h1>Login</h1>
+      <div className="Hero">
+        <div className="Interrogações">
+          <h1 className="LogoInterrogaçãoLaranja">?</h1>
+          <img className="LogoImage" src="https://m.media-amazon.com/images/I/71ts8N6ka4L.png" alt="Logo" />
+          <h1 className="LogoInterrogaçãoVermelho">?</h1>
+          <h1 className="LogoInterrogaçãoVerde">?</h1>
+        </div>
+        <h1 className="LogoTrivia">TRIVIA</h1>
         <form>
-          <label htmlFor="email">
-            Email:
-            <input
-              type="email"
-              name="gravatarEmail"
-              id="email"
-              data-testid="input-gravatar-email"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="name">
-            Name:
-            <input
-              type="text"
-              name="name"
-              id="name"
-              data-testid="input-player-name"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <button
-            type="submit"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ this.handleSubmit }
-          >
-            Play
-          </button>
-          <button
-            data-testid="btn-settings"
-            type="button"
-            onClick={ () => history.push('/settings') }
-          >
-            Settings
-          </button>
+          <div className="Quadrado">
+            <label htmlFor="email" className="EmailLogin">
+              Email:
+              <input
+                type="email"
+                name="gravatarEmail"
+                id="email"
+                data-testid="input-gravatar-email"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label htmlFor="name" className="NameLogin">
+              Name:
+              <input
+                type="text"
+                name="name"
+                id="name"
+                data-testid="input-player-name"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <div className="ButtonsLogin">
+              <button
+                className="ButtonJogar"
+                type="submit"
+                data-testid="btn-play"
+                disabled={ isDisabled }
+                onClick={ this.handleSubmit }
+              >
+                PLAY
+              </button>
+              <button
+                className="ButtonConfig"
+                data-testid="btn-settings"
+                type="button"
+                onClick={ () => history.push('/settings') }
+              >
+                SETTINGS
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     );
