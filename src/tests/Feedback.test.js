@@ -25,7 +25,7 @@ describe ("Testa a tela de Feedback", () => {
         act(() => {
             history.push('/feedback');
           });
-          const playAgain = screen.getByRole('button', {  name: /play again/i})
+          const playAgain = screen.getByRole('button', {  name: /play again/i});
           userEvent.click(playAgain);
           const { location: { pathname }} = history;
           expect(pathname).toBe('/');
