@@ -1,10 +1,8 @@
 import React from "react";
 import { screen, act } from "@testing-library/react";
 import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux"
-import Feedback from "../pages/Feedback";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
-import user from "../redux/reducers/user";
 
 
 describe ("Testa a tela de Feedback", () => {
