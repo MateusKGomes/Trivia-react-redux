@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { getRanking } from '../services/localStorage';
 import { actionScore } from '../redux/actions';
+import '../Style/Login.css';
+import '../Style/Ranking.css';
 
 class Ranking extends Component {
   render() {
@@ -19,48 +21,47 @@ class Ranking extends Component {
     return (
       <div className="ranking">
         <img src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` } alt="logo" className="logo" />
-        <div className="box">
-          <h1 data-testid="ranking-title">RANKING</h1>
-          <ol>
-            { ranking.map((elemento, index) => (
-              <li key={ index }>
-                <div className="rankingPlayer">
-                  {/* <img
-                    src={ elemento.picture }
-                    alt="avatar"
-                  /> */}
+        <div className="box QuadradoRanking">
+          <h1 data-testid="ranking-title" className="RankingText">RANKING</h1>
+          <div className="ScorePrincipal">
+            <ol className="overflow">
+              { ranking.map((elemento, index) => (
+                <li key={ index } className="rankingPlayer">
                   <p
                     data-testid={ `player-name-${index}` }
                     name="name"
                     value="name"
                   >
+                    <div className="star" />
                     { elemento.name }
                   </p>
-                </div>
-                <div className="rankingScore">
-                  <p
-                    name="currency"
-                    value="score"
-                    data-testid={ `player-score-${index}` }
-                  >
-                    {`${elemento.score} points`}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <button
-            className="button is-primary"
-            data-testid="btn-go-home"
-            type="submit"
-            onClick={ () => {
-              const { history, dispatch } = this.props;
-              dispatch(actionScore(0));
-              history.push('/');
-            } }
-          >
-            PLAY AGAIN
-          </button>
+
+                  <div>
+                    <p
+                      name="currency"
+                      value="score"
+                      data-testid={ `player-score-${index}` }
+                      className="score"
+                    >
+                      {`${elemento.score} points`}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <button
+              className="button is-primary"
+              data-testid="btn-go-home"
+              type="submit"
+              onClick={ () => {
+                const { history, dispatch } = this.props;
+                dispatch(actionScore(0));
+                history.push('/');
+              } }
+            >
+              PLAY AGAIN
+            </button>
+          </div>
         </div>
       </div>
     );
