@@ -40,6 +40,7 @@ class MultipleQuestion extends Component {
     if (prevState.seconds === TIME_LIMIT_IN_SECONDS) {
       this.setState({
         disable: true,
+        hidden: false,
       }, () => {
         clearInterval(this.intervalID);
       });
@@ -138,7 +139,14 @@ class MultipleQuestion extends Component {
       this.setState({
         disable: false,
         hidden: true,
+        seconds: 30,
       });
+      const ONE_SECOND = 1000;
+      this.intervalID = setInterval(() => {
+        this.setState((prevState) => ({
+          seconds: prevState.seconds - 1,
+        }));
+      }, ONE_SECOND);
     }
   };
 
