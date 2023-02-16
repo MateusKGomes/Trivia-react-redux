@@ -17,7 +17,10 @@ class Header extends Component {
           data-testid="header-profile-picture"
         />
         <h2 className="HeaderText" data-testid="header-player-name">{ name }</h2>
-        <h4 className="HeaderText" data-testid="header-score">{score}</h4>
+        <p className="HeaderText HeaderParagraph">
+          Score:
+          <h4 data-testid="header-score">{score}</h4>
+        </p>
         <p className="assertions HeaderText">
           { `Assertions: ${assertions}` }
         </p>

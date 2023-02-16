@@ -5,6 +5,7 @@ import Shuffled from './Shuffled';
 import '../App.css';
 import { actionAssertions, actionScore } from '../redux/actions';
 import { saveRanking } from '../services/localStorage';
+import '../Style/MultipleQuestion.css';
 // import Shuffled from './Shuffled';
 // import { fetchQuestionsAnswer } from '../services/API';
 
@@ -155,59 +156,62 @@ class MultipleQuestion extends Component {
       hidden,
     } = this.state;
     return (
-      <div>
-        <h1 data-testid="question-category">{category}</h1>
-        <h2 data-testid="question-text">{question}</h2>
-        <p>{seconds}</p>
-        <div data-testid="answer-options">
-          {
-            shuffledAnswers.map((answer, i) => {
-              if (answer === correct) {
+      <div className="Question">
+        <p className="QuestionTimer">{seconds}</p>
+        <h1 className="QuestionCategory" data-testid="question-category">{category}</h1>
+        <div className="QuestionDiv">
+          <h2 className="QuestionText" data-testid="question-text">{question}</h2>
+          <div className="AnswersOptions" data-testid="answer-options">
+            {
+              shuffledAnswers.map((answer, i) => {
+                if (answer === correct) {
+                  return (
+                    <button
+                      type="button"
+                      className={ correctClass }
+                      id=""
+                      disabled={ disable }
+                      name="correct-answer"
+                      data-testid="correct-answer"
+                      key={ i }
+                      onClick={ ({ target }) => this.onClick(target) }
+                    >
+                      {answer}
+                    </button>
+                  );
+                }
+                const index = incorrect.indexOf(answer);
                 return (
                   <button
                     type="button"
-                    className={ correctClass }
+                    className={ wrongClass }
                     id=""
                     disabled={ disable }
-                    name="correct-answer"
-                    data-testid="correct-answer"
+                    name={ `wrong-answer-${index}` }
+                    data-testid={ `wrong-answer-${index}` }
                     key={ i }
                     onClick={ ({ target }) => this.onClick(target) }
                   >
                     {answer}
                   </button>
                 );
-              }
-              const index = incorrect.indexOf(answer);
-              return (
-                <button
-                  type="button"
-                  className={ wrongClass }
-                  id=""
-                  disabled={ disable }
-                  name={ `wrong-answer-${index}` }
-                  data-testid={ `wrong-answer-${index}` }
-                  key={ i }
-                  onClick={ ({ target }) => this.onClick(target) }
-                >
-                  {answer}
-                </button>
-              );
-            })
-          }
-          {
-            hidden ? null : (
-              <button
-                data-testid="btn-next"
-                type="button"
-                name="next"
-                onClick={ () => this.nextQuestion() }
-              >
-                Next
-              </button>
-            )
-          }
+              })
+            }
+          </div>
         </div>
+        {
+          hidden ? null : (
+            <button
+              data-testid="btn-next"
+              type="button"
+              name="next"
+              className="button QuestionNext"
+              onClick={ () => this.nextQuestion() }
+            >
+              Next
+            </button>
+          )
+        }
       </div>
     );
   }

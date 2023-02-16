@@ -11,14 +11,22 @@
 }
 
 .HeaderText {
+  align-items: center;
   background-color: white;
   border-radius: 10px;
   box-shadow: 1px 4px 13px 2px rgba(0, 0, 0, 0.7);
+  display: flex;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
+  height: 50px;
+  justify-content: center;
   letter-spacing: 0.085em;
   line-height: 100%;
   padding: 10px;
   width: 200px;
+}
+
+.HeaderParagraph {
+  display: flex;
 }
